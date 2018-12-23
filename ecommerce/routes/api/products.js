@@ -5,7 +5,8 @@ const ProductsServices = require('../../services/products');
 const productService = new ProductsServices();
 
 router.get('/', async function (req, res, next) {
-  const { query } = req;
+  const { tags } = req.query;
+  console.log('req', req.query);
 
   try {
     const products = await productService.getProducts({ tags });
@@ -23,10 +24,10 @@ router.get('/:productId', async function (req, res, next) {
   const { productId } = req.params;
 
   try {
-    const products = await productService.getProducts({ productId });
+    const product = await productService.getProducts({ productId });
 
     res.status(200).json({
-      data: products,
+      data: product,
       message: 'product retrieved'
     });
   } catch (err) {
@@ -38,10 +39,10 @@ router.post('/', async function (req, res, next) {
   const { body: product } = req;
   
   try {
-    const products = await productService.getProducts({ product });
+    const productCreated = await productService.getProducts({ product });
   
     res.status(201).json({
-      data: products,
+      data: productCreated,
       message: 'products listed'
     });
   } catch(err) {
@@ -54,10 +55,10 @@ router.put('/:productId', async function (req, res, next) {
   const { body: product } = req;
   
   try {
-    const productUpdate = await productService.getProducts({ productId, product });
+    const productUpdated = await productService.getProducts({ productId, product });
   
     res.status(200).json({
-      data: productUpdate,
+      data: productUpdated,
       message: 'products updated'
     });
   } catch(err) {
@@ -69,9 +70,9 @@ router.delete('/:productId', async function (req, res, next) {
   const { productId } = req.params;
   
   try {
-    const product = await productService.deleteProduct({ productId })
+    const productDeleted = await productService.deleteProduct({ productId })
     res.status(200).json({
-      data: product,
+      data: productDeleted,
       message: 'product deleted'
     });
   } catch (err) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ProductsServices = require('../services/products');
+const ProductsServices = require('../../services/products');
 
 const productServices = new ProductsServices();
 
