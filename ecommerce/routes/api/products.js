@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const ProductsService = require("../../services/products");
 
@@ -12,6 +13,8 @@ const {
   createProductSchema,
   updateProductSchema
 } = require('../../utils/schemas/products');
+
+require('../../utils/auth/strategies/jwt');
 
 router.get('/', async function(req, res, next) {
   const { tags } = req.query;
@@ -67,6 +70,7 @@ router.post('/', validation(createProductSchema), async function(req, res, next)
 
 router.put(
   '/:productId',
+  passport.authenticate('jwt', { session: false }),
   validation({ productId: productIdSchema }, 'params'),
   validation(updateProductSchema),
   async function(req, res, next) {
@@ -89,7 +93,10 @@ router.put(
   }
 });
 
-router.delete('/:productId', async function(req, res, next) {
+router.delete(
+  '/:productId',
+  passport.authenticate('jwt', { session: false }),
+  async function(req, res, next) {
   const { productId } = req.params;
 
   console.log('req', req.params);
