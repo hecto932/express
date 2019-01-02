@@ -5,6 +5,7 @@ const productsRouter = require('./routes/views/products');
 const productsApiRouter = require('./routes/api/products');
 const authApiRouter = require('./routes/api/auth');
 const boom = require('boom');
+const debug = require('debug')('app:server');
 const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 
 const {
@@ -56,5 +57,5 @@ app.use(errorHandler);
 
 // server
 const server = app.listen(8000, function () {
-  console.log(`Listening http://localhost:${server.address().port}`);
+  debug(`Listening http://localhost:${server.address().port}`);
 });
